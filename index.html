@@ -97,3 +97,58 @@
   <div class="grid stats-grid"><div class="stat-card"><div class="stat-top">🏪 Your businesses</div><div class="stat-value" id="businessCount">0</div><small class="muted">Owned stores</small></div><div class="stat-card"><div class="stat-top">🛒 Customers</div><div class="stat-value" id="customerCount">0</div><small class="muted">Lifetime visitors</small></div><div class="stat-card"><div class="stat-top">💸 Business income</div><div class="stat-value" id="businessIncome">$0</div><small class="muted">Per year</small></div><div class="stat-card"><div class="stat-top">📈 City demand</div><div class="stat-value">82%</div><small class="muted">Simulated demand</small></div></div>
   <div class="tabs"><button class="tab active" data-shop-tab="items">🛍 Personal shopping</button><button class="tab" data-shop-tab="business">🏪 Open a shop</button><button class="tab" data-shop-tab="owned">📊 My businesses</button></div>
   <div class="grid shop-grid" id="shopItems"></div>
+  <div class="grid shop-grid" id="businessItems" style="display:none"></div>
+  <div class="grid" id="ownedBusinesses" style="display:none"></div>
+  <div class="panel" style="margin-top:14px"><h3>🧍 Customer flow</h3><div class="event-list" id="customerFeed"></div><p class="muted small">Owned stores generate simulated revenue whenever you perform actions or advance a year. This is in-game money only.</p></div>
+</section>
+<section class="screen" id="screen-property">
+  <div class="section-head"><div><div class="eyebrow">Home · Real estate · Lifestyle</div><h1>Apartments & Property</h1><p>Design your home, upgrade your lifestyle and build a property portfolio.</p></div></div>
+  <div class="grid content-grid"><div class="panel"><div class="property-scene"><div class="property-window"></div><div class="property-bed"></div></div><div class="panel-head" style="margin-top:14px"><h3 id="homeTitle">Starter Neon Apartment</h3><span class="badge" id="homeBadge">YOUR HOME</span></div><p class="muted" id="homeDesc">A cozy starter apartment above the city lights.</p><div class="grid two-col"><div class="stat-card"><div class="stat-top">🏠 Properties owned</div><div class="stat-value" id="propertyCount">1</div></div><div class="stat-card"><div class="stat-top">✨ Home comfort</div><div class="stat-value" id="homeComfort">35/100</div></div></div></div><div class="panel"><h3>🏙️ Real estate market</h3><div class="listings" id="propertyList"></div></div></div>
+  <div class="panel" style="margin-top:14px"><h3>🪑 Home upgrades</h3><div class="grid three-col" id="upgradeList"></div></div>
+</section>
+<section class="screen" id="screen-profile">
+  <div class="section-head"><div><div class="eyebrow">Identity · Appearance · Personality</div><h1>Character Studio</h1><p>Customize your player avatar, name, starting age and device layout.</p></div></div>
+  <div class="grid content-grid"><div class="panel"><h3>🪪 Your character</h3><div class="profile-card"><div class="portrait" id="profilePortrait">👩🏻‍🎤</div><div><h2 id="profileName">Zahra</h2><p class="muted" id="profileBio">Age 18 · New Dreamer</p><span class="badge" id="stageBadge">YOUNG ADULT</span></div></div><div class="grid two-col" style="margin-top:16px"><div class="form-row"><label>Character name</label><input id="nameInput" maxlength="22" value="Zahra"></div><div class="form-row"><label>Starting age (changes new game only)</label><select id="ageInput"><option>16</option><option selected>18</option><option>21</option><option>25</option></select></div><div class="form-row"><label>Avatar style</label><select id="avatarInput"><option value="👩🏻‍🎤">Neon Anime Girl</option><option value="🧑🏻‍🚀">Cyber Explorer</option><option value="👨🏻‍🎤">Neon Anime Boy</option><option value="🧝🏻">Fantasy Neon</option><option value="🧑🏽‍💻">Tech Creator</option><option value="🧑🏻‍🎨">Digital Artist</option></select></div><div class="form-row"><label>Appearance theme</label><select id="themeInput"><option value="pink">Pink / Purple</option><option value="cyan">Cyan / Blue</option><option value="gold">Gold / Violet</option></select></div></div><button class="btn primary" id="saveProfile">Save character changes</button></div><div class="panel"><h3>📊 Full character attributes</h3><div id="profileMeters"></div><div class="event-row" style="margin-top:14px"><span class="event-icon">🧠</span><div><strong>Intelligence & education</strong><small>Studying increases knowledge and unlocks higher-level careers.</small></div></div><div class="event-row"><span class="event-icon">💖</span><div><strong>Health & happiness</strong><small>Balance work, rest, fitness and friendships.</small></div></div><div class="event-row"><span class="event-icon">✨</span><div><strong>Appearance & relationships</strong><small>Exercise, style items and social choices affect your profile.</small></div></div></div></div>
+</section>
+<section class="screen" id="screen-events">
+  <div class="section-head"><div><div class="eyebrow">Unexpected moments · Story log</div><h1>Life Events & Timeline</h1><p>Your decisions create a living story. Check your milestones and recent changes.</p></div><button class="btn ghost" id="clearEvents">Clear log</button></div>
+  <div class="grid content-grid"><div class="panel"><h3>⚡ Event feed</h3><div class="event-list" id="allEvents"></div></div><div class="panel"><h3>🗓️ Life timeline</h3><div class="event-list" id="timeline"></div><button class="btn primary" id="advanceYear2" style="margin-top:12px">⏭ Advance one year</button></div></div>
+  <div class="panel" style="margin-top:14px"><h3>🏆 Achievements</h3><div class="grid three-col" id="achievements"></div></div>
+</section>
+<section class="screen" id="screen-settings">
+  <div class="section-head"><div><div class="eyebrow">Preferences · Data · Display</div><h1>Settings & Save</h1><p>Choose a phone, computer or TV-style interface and manage your local save.</p></div></div>
+  <div class="grid content-grid"><div class="panel"><h3>🖥️ Display mode</h3><p class="muted small">Choose the interface size that suits your device. The game automatically stays responsive.</p><div class="grid three-col" id="deviceChoices"><button class="device-preview active" data-device="mobile"><div style="font-size:30px">📱</div><b>Mobile</b><small class="muted">Phone layout</small></button><button class="device-preview" data-device="computer"><div style="font-size:30px">💻</div><b>Computer</b><small class="muted">Wide layout</small></button><button class="device-preview" data-device="tv"><div style="font-size:30px">📺</div><b>TV / Big screen</b><small class="muted">Large controls</small></button></div><div class="form-row" style="margin-top:14px"><label>UI scale</label><select id="scaleInput"><option value="1">Normal</option><option value="1.08">Large</option><option value="1.16">Extra large</option></select></div><button class="btn primary" id="applyDevice">Apply display settings</button></div><div class="panel"><h3>💾 Save management</h3><div class="event-list"><div class="event-row"><span class="event-icon">💾</span><div><strong>Local autosave</strong><small>Game progress saves in this browser on this device.</small></div></div><div class="event-row"><span class="event-icon">📤</span><div><strong>Export save file</strong><small>Download a JSON backup of your game.</small></div></div><div class="event-row"><span class="event-icon">🔄</span><div><strong>Import save file</strong><small>Load a previous JSON backup on this device.</small></div></div></div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:14px"><button class="btn" id="exportSave">Export save</button><button class="btn" id="importSave">Import save</button><input type="file" id="importFile" accept=".json,application/json" hidden><button class="btn gold" id="resetGame">New life / Reset</button></div><p class="muted small" style="margin-top:14px">GitHub Pages can save locally in your browser. It does not sync across devices unless you export and import a save file.</p></div></div>
+</section>
+</main>
+</div>
+<nav class="bottom-nav" id="bottomNav"><button class="active" data-screen="home"><span>⌂</span>Home</button><button data-screen="city"><span>🌆</span>City</button><button data-screen="life"><span>✦</span>Life</button><button data-screen="career"><span>💼</span>Career</button><button data-screen="shop"><span>🛍️</span>Shop</button><button data-screen="property"><span>🏠</span>Home</button></nav>
+<div class="toast" id="toast"></div>
+<div class="modal-backdrop" id="modalBackdrop"><div class="modal"><h2 id="modalTitle">Confirm</h2><p id="modalText" class="muted"></p><div class="modal-actions"><button class="btn ghost" id="modalCancel">Cancel</button><button class="btn primary" id="modalConfirm">Confirm</button></div></div></div>
+<div class="footer-note">LUMA LIFE SIMULATOR · A local browser game · Neon city life, your way.</div>
+<script>
+(() => {
+"use strict";
+const $=id=>document.getElementById(id);
+const money=n=>"$"+Math.floor(n).toLocaleString("en-US");
+const clamp=(n,min=0,max=100)=>Math.max(min,Math.min(max,n));
+const rand=(a,b)=>Math.floor(Math.random()*(b-a+1))+a;
+const STORE_KEY="lumaLifeSimulatorSave_v2";
+const defaultState=()=>({name:"Zahra",age:18,year:1,money:2500,gems:12,health:80,happiness:72,energy:82,education:10,skill:5,intelligence:48,fitness:35,social:32,relationships:28,appearance:60,job:"Unemployed",salary:0,avatar:"👩🏻‍🎤",theme:"pink",city:"Neon Tokyo",district:"Skyline Plaza",device:"mobile",scale:"1",home:"Starter Neon Apartment",homeComfort:35,properties:["Starter Neon Apartment"],items:[],businesses:[],customers:0,businessEarned:0,events:[],achievements:[],lastYear:1,shopTab:"items"});
+let state=defaultState();
+const cities=[
+{name:"Neon Tokyo",cost:0,desc:"The electric capital of fashion and tech.",emoji:"🌃",shops:6},
+{name:"Lunar Bay",cost:250,desc:"Coastal towers, blue lights and night markets.",emoji:"🌊",shops:5},
+{name:"Violet Seoul",cost:400,desc:"Music streets, studios and designer stores.",emoji:"🌆",shops:8},
+{name:"Nova Dubai",cost:700,desc:"Luxury skyline, grand malls and high-rise homes.",emoji:"🏙️",shops:9},
+{name:"Aurora City",cost:950,desc:"A green-tech metropolis under aurora skies.",emoji:"🌌",shops:7},
+{name:"Cyber Mumbai",cost:600,desc:"Crowded streets, markets and ambitious startups.",emoji:"🌉",shops:10}
+];
+const careers=[
+{name:"Retail Assistant",salary:500,edu:0,skill:0,emoji:"🛍️",desc:"Start in the city's retail district."},
+{name:"Office Assistant",salary:850,edu:15,skill:5,emoji:"🗂️",desc:"A stable office role with room to grow."},
+{name:"Software Developer",salary:1800,edu:35,skill:25,emoji:"💻",desc:"Build digital products for neon businesses."},
+{name:"Business Manager",salary:2400,edu:40,skill:35,emoji:"📈",desc:"Lead teams and grow city operations."},
+{name:"Research Scientist",salary:3200,edu:60,skill:50,emoji:"🧪",desc:"Work on the next generation of technology."},
+{name:"Creative Director",salary:2800,edu:30,skill:40,emoji:"🎨",desc:"Shape brands, fashion and digital worlds."}
+];
+  
