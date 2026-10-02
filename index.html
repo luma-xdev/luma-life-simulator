@@ -1,0 +1,458 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#090817">
+<title>LUMA LIFE SIMULATOR</title>
+<style>
+:root{
+  --bg:#090817;--panel:#141229;--line:#30284e;
+  --cyan:#50f6ff;--pink:#ff55d7;--purple:#a78bfa;
+  --green:#72f5a4;--gold:#ffd477;--text:#f6f2ff;--muted:#aaa4c7;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;background:radial-gradient(ellipse at top,#211341 0,transparent 45%),var(--bg);
+  color:var(--text);font-family:system-ui,-apple-system,sans-serif;
+}
+button,input{font:inherit}
+header{
+  padding:17px 15px;border-bottom:1px solid var(--line);
+  background:#090817ed;position:sticky;top:0;z-index:5;
+}
+.head{max-width:900px;margin:auto;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.logo{font-size:17px;font-weight:900;letter-spacing:1.5px;color:var(--cyan)}
+.logo span{color:var(--pink)}
+.online{font-size:10px;color:var(--green)}
+main{max-width:900px;margin:auto;padding:17px 13px 45px}
+.hero,.panel,.stat,.action,.event,.achievement{
+  border:1px solid var(--line);border-radius:17px;
+  background:linear-gradient(145deg,#17142d,#100e20);
+}
+.hero{padding:21px;position:relative;overflow:hidden}
+.eyebrow{color:var(--cyan);font-size:10px;font-weight:800;letter-spacing:3px}
+h1{font-size:clamp(28px,7vw,44px);line-height:1.1;margin:12px 0}
+h1 span{color:var(--pink)}
+p{line-height:1.55}
+.muted{color:var(--muted);font-size:12px}
+.identity{display:flex;align-items:center;gap:15px;margin-top:18px}
+.avatar{
+  width:76px;height:76px;flex-shrink:0;border-radius:20px;
+  display:grid;place-items:center;font-size:39px;
+  background:linear-gradient(145deg,#31205d,#102e45);
+  border:1px solid #5b4a92;box-shadow:0 0 25px #a78bfa20;
+}
+.identity h2{margin:0;font-size:19px}
+.pill{display:inline-block;padding:5px 9px;border:1px solid var(--line);border-radius:30px;font-size:10px;color:var(--cyan);margin-top:6px}
+.section-title{font-size:17px;margin:25px 0 12px}
+.stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.stat{padding:12px}
+.stat-head{display:flex;justify-content:space-between;gap:5px;font-size:12px}
+.stat-head b{color:var(--cyan)}
+.bar{height:6px;background:#29243e;border-radius:9px;margin-top:9px;overflow:hidden}
+.fill{height:100%;width:50%;border-radius:9px;background:linear-gradient(90deg,#8a64ff,#50f6ff);transition:width .3s}
+.money{color:var(--green)!important}
+.layout{display:grid;grid-template-columns:1fr;gap:12px}
+.panel{padding:16px}
+.panel h3{margin:0 0 6px;font-size:16px}
+.actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.action{
+  padding:13px 10px;text-align:left;color:var(--text);cursor:pointer;
+  min-height:102px;transition:transform .12s,border-color .12s;
+}
+.action:active{transform:scale(.98)}
+.action:hover{border-color:var(--cyan)}
+.action .emoji{font-size:23px}
+.action strong{display:block;font-size:13px;margin-top:7px}
+.action small{display:block;font-size:10px;color:var(--muted);margin-top:4px;line-height:1.4}
+button:disabled{opacity:.35;cursor:not-allowed}
+.primary,.secondary,.danger{
+  border:1px solid var(--cyan);border-radius:11px;padding:11px 13px;
+  color:var(--cyan);background:#50f6ff10;font-weight:750;cursor:pointer;
+}
+.primary{background:var(--cyan);color:#080713}
+.secondary{border-color:var(--pink);color:var(--pink)}
+.danger{border-color:#ff667c;color:#ff8b9b}
+.full{width:100%;margin-top:10px}
+.event{padding:12px;margin-top:9px;font-size:12px;color:#d8d2ee;line-height:1.5}
+.event:first-letter{color:var(--cyan)}
+.shop-item{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid var(--line)}
+.shop-item:last-child{border:0}
+.shop-item strong{font-size:13px}
+.shop-item p{font-size:11px;color:var(--muted);margin:4px 0 0}
+.shop-item button{white-space:nowrap;padding:9px;font-size:11px}
+.achievement{padding:11px;margin-top:8px;display:flex;gap:10px;align-items:center}
+.achievement .emoji{font-size:22px}
+.achievement small{display:block;color:var(--muted);font-size:10px;margin-top:3px}
+.locked{opacity:.45}
+footer{text-align:center;color:var(--muted);font-size:10px;padding:22px}
+.toast{
+  display:none;position:fixed;bottom:20px;left:50%;transform:translateX(-50%);
+  z-index:20;background:#20183b;border:1px solid var(--cyan);border-radius:12px;
+  padding:12px 16px;font-size:12px;width:max-content;max-width:90%;
+}
+@media(min-width:650px){
+ .stats{grid-template-columns:repeat(3,minmax(0,1fr))}
+ .layout{grid-template-columns:1fr 1fr}
+ .actions{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="head">
+    <div class="logo">LUMA<span>.</span>LIFE</div>
+    <div class="online">● LIFE SYSTEM ONLINE</div>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="eyebrow">YOUR STORY · YOUR DECISIONS</div>
+    <h1>DESIGN YOUR<br><span>OWN LIFE.</span></h1>
+    <p class="muted">Build your future. Grow your skills. Make money. Discover what your choices can create.</p>
+    <div class="identity">
+      <div class="avatar" id="avatar">🧑‍🚀</div>
+      <div>
+        <h2 id="playerName">New Player</h2>
+        <div class="muted" id="playerInfo">Age 18 · Year 1</div>
+        <div class="pill" id="careerPill">UNEMPLOYED</div>
+      </div>
+    </div>
+    <button class="secondary full" onclick="renamePlayer()">✎ Change Character Name</button>
+  </section>
+
+  <h2 class="section-title">📊 Your Life Dashboard</h2>
+  <div class="stats" id="stats"></div>
+
+  <h2 class="section-title">⚡ Make Your Move</h2>
+  <div class="actions">
+    <button class="action" onclick="act('study')"><span class="emoji">📚</span><strong>Study</strong><small>Improve education and skills</small></button>
+    <button class="action" onclick="act('work')"><span class="emoji">💼</span><strong>Go to Work</strong><small>Earn your daily income</small></button>
+    <button class="action" onclick="act('exercise')"><span class="emoji">🏋️</span><strong>Exercise</strong><small>Improve health and energy</small></button>
+    <button class="action" onclick="act('rest')"><span class="emoji">🛌</span><strong>Rest & Recover</strong><small>Restore energy and happiness</small></button>
+    <button class="action" onclick="act('social')"><span class="emoji">💞</span><strong>Social Life</strong><small>Build relationships and happiness</small></button>
+    <button class="action" onclick="act('freelance')"><span class="emoji">💻</span><strong>Freelance</strong><small>Earn from your skills</small></button>
+  </div>
+
+  <div class="layout">
+    <section>
+      <h2 class="section-title">🎓 Career & Education</h2>
+      <div class="panel">
+        <h3>Choose Your Future</h3>
+        <p class="muted">Study to unlock better careers. A career can increase your income.</p>
+        <div id="careers"></div>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="section-title">🏡 Property & Lifestyle</h2>
+      <div class="panel">
+        <h3>Your Next Upgrade</h3>
+        <p class="muted">Save your money and buy something that improves your life.</p>
+        <div id="shop"></div>
+      </div>
+    </section>
+  </div>
+
+  <div class="layout">
+    <section>
+      <h2 class="section-title">📅 Life Timeline</h2>
+      <div class="panel">
+        <p class="muted">Advance your life by one year. Age, costs and opportunities change as you grow.</p>
+        <button class="primary full" onclick="advanceYear()">⏩ Advance One Year</button>
+        <div id="timeline"></div>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="section-title">🏆 Achievements</h2>
+      <div class="panel">
+        <p class="muted">Unlock milestones as your life develops.</p>
+        <div id="achievements"></div>
+      </div>
+    </section>
+  </div>
+
+  <section>
+    <h2 class="section-title">📜 Life Events</h2>
+    <div class="panel">
+      <p class="muted">Your recent decisions and their consequences.</p>
+      <div id="events"></div>
+    </div>
+  </section>
+
+  <section class="panel" style="margin-top:25px">
+    <h3>💾 Save & Settings</h3>
+    <p class="muted">Your progress is saved in this browser on this device.</p>
+    <button class="primary" onclick="saveGame(true)">Save Game</button>
+    <button class="secondary" onclick="exportSave()">Export Save</button>
+    <button class="danger" onclick="resetGame()">New Life / Reset</button>
+  </section>
+</main>
+
+<footer>LUMA LIFE SIMULATOR · VERSION 1.0<br>LIVE YOUR STORY, ONE CHOICE AT A TIME.</footer>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+const KEY = "lumaLifeSimulator.save.v1";
+
+function freshState(){
+  return {
+    name:"New Player",age:18,year:1,money:500,
+    health:80,happiness:70,energy:80,education:10,
+    skill:5,relationships:30,career:"Unemployed",
+    salary:0,home:"No Property",cost:120,
+    events:["🌟 Your new life begins. You have $500 and a world of possibilities."],
+    achievements:[],days:0
+  };
+}
+let game = freshState();
+
+function clamp(n,min=0,max=100){return Math.max(min,Math.min(max,n));}
+function toast(msg){
+  const el=document.getElementById("toast");
+  el.textContent=msg;el.style.display="block";
+  clearTimeout(window.toastTimer);
+  window.toastTimer=setTimeout(()=>el.style.display="none",2500);
+}
+function log(msg){
+  game.events.unshift(msg);
+  game.events=game.events.slice(0,25);
+}
+function change(key,amount,min=0,max=100){
+  game[key]=clamp(game[key]+amount,min,max);
+}
+function loadGame(){
+  try{
+    const raw=localStorage.getItem(KEY);
+    if(raw){
+      const data=JSON.parse(raw);
+      if(data && typeof data==="object" && typeof data.money==="number"){
+        game={...freshState(),...data};
+      }
+    }
+  }catch(e){}
+}
+function saveGame(showMessage=false){
+  try{
+    localStorage.setItem(KEY,JSON.stringify(game));
+    if(showMessage)toast("Game saved successfully! 💾");
+  }catch(e){
+    toast("Could not save. Check your browser storage.");
+  }
+  render();
+}
+function renamePlayer(){
+  const value=prompt("What is your character's name?",game.name);
+  if(value===null)return;
+  const name=value.trim().slice(0,24);
+  if(!name){toast("Please enter a name.");return;}
+  game.name=name;
+  log("🪪 You updated your character's name to "+name+".");
+  saveGame();
+  toast("Character updated!");
+}
+function act(type){
+  if(game.energy<10 && type!=="rest"){
+    toast("You are exhausted. Rest before doing more.");
+    return;
+  }
+  if(type==="study"){
+    if(game.money<20){toast("You need $20 for study materials.");return;}
+    game.money-=20;change("education",8);change("skill",5);
+    change("energy",-15);change("happiness",-3);
+    log("📚 You studied hard. Education and skills improved.");
+  }
+  if(type==="work"){
+    if(game.career==="Unemployed"){
+      toast("Choose a career first, or try freelancing.");
+      return;
+    }
+    const earned=game.salary;
+    game.money+=earned;change("energy",-20);change("happiness",-4);
+    log("💼 You worked a shift and earned $"+earned+".");
+  }
+  if(type==="exercise"){
+    change("health",10);change("energy",-18);change("happiness",4);
+    log("🏋️ You exercised. Your health improved.");
+  }
+  if(type==="rest"){
+    change("energy",35);change("health",4);change("happiness",8);
+    log("🛌 You took time to rest and recover.");
+  }
+  if(type==="social"){
+    change("relationships",12);change("happiness",10);
+    change("energy",-10);
+    log("💞 You spent time with people and strengthened your relationships.");
+  }
+  if(type==="freelance"){
+    if(game.skill<5){toast("Improve your skill to at least 5 first.");return;}
+    const earned=40+game.skill*5;
+    game.money+=earned;change("energy",-18);change("skill",2);
+    log("💻 You completed freelance work and earned $"+earned+".");
+  }
+  saveGame();
+}
+const careerList=[
+  {name:"Retail Assistant",emoji:"🛍️",salary:100,education:0,skill:0},
+  {name:"Office Assistant",emoji:"🗂️",salary:160,education:15,skill:5},
+  {name:"Software Developer",emoji:"👩‍💻",salary:320,education:40,skill:25},
+  {name:"Business Manager",emoji:"📈",salary:450,education:60,skill:40},
+  {name:"Research Scientist",emoji:"🧪",salary:600,education:80,skill:60}
+];
+function chooseCareer(index){
+  const c=careerList[index];
+  if(game.education<c.education || game.skill<c.skill){
+    toast("Requirements not met. Study and build skills first.");
+    return;
+  }
+  game.career=c.name;game.salary=c.salary;
+  log("💼 You started a career as "+c.name+". Daily income: $"+c.salary+".");
+  saveGame();toast("Career unlocked!");
+}
+function buy(item){
+  if(item==="course"){
+    if(game.money<250){toast("You need $250 for this course.");return;}
+    game.money-=250;change("education",20);change("skill",12);
+    log("🎓 You completed a professional course.");
+  }
+  if(item==="phone"){
+    if(game.money<350){toast("You need $350.");return;}
+    if(game.phone){toast("You already own this item.");return;}
+    game.money-=350;game.phone=true;change("happiness",5);
+    log("📱 You bought a new phone.");
+  }
+  if(item==="home"){
+    if(game.home!=="No Property"){toast("You already own a home.");return;}
+    if(game.money<1500){toast("Save up $1,500 for a home.");return;}
+    game.money-=1500;game.home="Starter Apartment";change("happiness",15);
+    log("🏡 You bought your first apartment!");
+  }
+  if(item==="gym"){
+    if(game.gym){toast("You already have this membership.");return;}
+    if(game.money<200){toast("You need $200.");return;}
+    game.money-=200;game.gym=true;change("health",5);
+    log("🏋️ You bought a gym membership.");
+  }
+  saveGame();
+}
+function advanceYear(){
+  if(!confirm("Advance to the next year? Your age and living costs will increase."))return;
+  game.age++;game.year++;game.days+=365;
+  const livingCost=game.home==="No Property"?180:100;
+  game.money-=livingCost;
+  change("health",-3);change("happiness",-2);
+  change("energy",10);
+  if(game.career!=="Unemployed"){
+    const bonus=Math.floor(game.salary*.05);
+    game.salary+=bonus;
+    log("📈 New year! Your career income increased by $"+bonus+".");
+  }else{
+    log("🗓️ A new year begins. Consider studying or finding work.");
+  }
+  if(game.age===25)log("🎂 Milestone: you are now 25. Your journey continues.");
+  if(game.age===30)log("🌟 You reached age 30. What will your next chapter hold?");
+  if(game.money<0)log("⚠️ Your balance is negative. Find income and manage expenses.");
+  saveGame();toast("Welcome to Year "+game.year+"!");
+}
+const items=[
+  {id:"course",name:"Professional Course",desc:"Education +20 · Skill +12",price:250,emoji:"🎓"},
+  {id:"phone",name:"Premium Phone",desc:"A lifestyle upgrade",price:350,emoji:"📱"},
+  {id:"gym",name:"Gym Membership",desc:"A step toward a healthier life",price:200,emoji:"🏋️"},
+  {id:"home",name:"Starter Apartment",desc:"A home of your own · $1,500",price:1500,emoji:"🏡"}
+];
+function renderStats(){
+  const stats=[
+    ["💰","Money",game.money,"$"+game.money,"money"],
+    ["❤️","Health",game.health,game.health+"/100"],
+    ["😊","Happiness",game.happiness,game.happiness+"/100"],
+    ["⚡","Energy",game.energy,game.energy+"/100"],
+    ["🎓","Education",game.education,game.education+"/100"],
+    ["🤝","Relationships",game.relationships,game.relationships+"/100"]
+  ];
+  document.getElementById("stats").innerHTML=stats.map(s=>`
+    <div class="stat">
+      <div class="stat-head"><span>${s[0]} ${s[1]}</span><b class="${s[4]||""}">${s[3]}</b></div>
+      <div class="bar"><div class="fill" style="width:${s[1]==="Money"?Math.min(100,Math.max(0,game.money/30)):s[2]}%"></div></div>
+    </div>`).join("");
+}
+function renderCareers(){
+  document.getElementById("careers").innerHTML=careerList.map((c,i)=>{
+    const qualified=game.education>=c.education&&game.skill>=c.skill;
+    const current=game.career===c.name;
+    return `<div class="shop-item">
+      <div><strong>${c.emoji} ${c.name}</strong>
+      <p>$${c.salary} per work shift · Education ${c.education}+ · Skill ${c.skill}+</p></div>
+      <button class="${current?"secondary":"primary"}" ${current||!qualified?"disabled":""} onclick="chooseCareer(${i})">${current?"Selected":qualified?"Choose":"Locked"}</button>
+    </div>`;
+  }).join("");
+}
+function renderShop(){
+  document.getElementById("shop").innerHTML=items.map(it=>{
+    const owned=(it.id==="home"&&game.home!=="No Property")||
+      (it.id==="phone"&&game.phone)||(it.id==="gym"&&game.gym);
+    return `<div class="shop-item">
+      <div><strong>${it.emoji} ${it.name}</strong><p>${it.desc}</p></div>
+      <button class="primary" ${owned?"disabled":""} onclick="buy('${it.id}')">${owned?"Owned":"$"+it.price}</button>
+    </div>`;
+  }).join("");
+}
+const achievementList=[
+  {id:"firstwork",emoji:"💼",name:"First Paycheck",desc:"Complete your first work shift.",ok:()=>game.events.some(e=>e.includes("earned $"))},
+  {id:"scholar",emoji:"🎓",name:"Scholar",desc:"Reach education 50.",ok:()=>game.education>=50},
+  {id:"wealth",emoji:"💰",name:"Saver",desc:"Have $2,000 or more.",ok:()=>game.money>=2000},
+  {id:"homeowner",emoji:"🏡",name:"Homeowner",desc:"Purchase your first home.",ok:()=>game.home!=="No Property"},
+  {id:"social",emoji:"💞",name:"People Person",desc:"Reach relationships 80.",ok:()=>game.relationships>=80},
+  {id:"veteran",emoji:"🌟",name:"Life Veteran",desc:"Reach age 25.",ok:()=>game.age>=25}
+];
+function renderAchievements(){
+  document.getElementById("achievements").innerHTML=achievementList.map(a=>{
+    const ok=a.ok();
+    if(ok&&!game.achievements.includes(a.id)){
+      game.achievements.push(a.id);
+      game.events.unshift("🏆 Achievement unlocked: "+a.name+"!");
+    }
+    return `<div class="achievement ${ok?"":"locked"}">
+      <div class="emoji">${a.emoji}</div>
+      <div><strong>${ok?"✓ ":""}${a.name}</strong><small>${a.desc}</small></div>
+    </div>`;
+  }).join("");
+}
+function render(){
+  document.getElementById("playerName").textContent=game.name;
+  document.getElementById("playerInfo").textContent="Age "+game.age+" · Year "+game.year;
+  document.getElementById("careerPill").textContent=game.career.toUpperCase();
+  document.getElementById("avatar").textContent=game.home!=="No Property"?"🧑‍💼":"🧑‍🚀";
+  renderStats();renderCareers();renderShop();renderAchievements();
+  document.getElementById("timeline").innerHTML=
+    `<div class="event">🗓️ Year ${game.year} · Age ${game.age}</div>
+     <div class="event">💼 Career: ${game.career}</div>
+     <div class="event">🏡 Home: ${game.home}</div>`;
+  document.getElementById("events").innerHTML=game.events.slice(0,10).map(e=>`<div class="event">${escapeHTML(e)}</div>`).join("");
+  try{localStorage.setItem(KEY,JSON.stringify(game));}catch(e){}
+}
+function escapeHTML(s){
+  return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+}
+function exportSave(){
+  const data=JSON.stringify(game,null,2);
+  const blob=new Blob([data],{type:"application/json"});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement("a");
+  a.href=url;a.download="luma-life-save.json";a.click();
+  URL.revokeObjectURL(url);
+  toast("Save export requested.");
+}
+function resetGame(){
+  if(!confirm("Start a completely new life? Your current saved game will be replaced."))return;
+  game=freshState();saveGame();toast("A new life begins!");
+}
+loadGame();
+render();
+</script>
+</body>
+      </html>
+        
