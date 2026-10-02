@@ -49,4 +49,51 @@
   <div class="grid content-grid">
     <div class="panel"><div class="panel-head"><h3>✦ Choose your next move</h3><span class="badge">LIFE ACTIONS</span></div><div class="grid actions-grid">
       <button class="action-card" data-action="study"><span class="big">📚</span><strong>Study</strong><small>Education + skill</small></button>
-  
+            <button class="action-card" data-action="work"><span class="big">💼</span><strong>Go to work</strong><small>Earn a paycheck</small></button>
+      <button class="action-card" data-action="exercise"><span class="big">🏋️</span><strong>Train</strong><small>Health + fitness</small></button>
+      <button class="action-card" data-action="rest"><span class="big">🛌</span><strong>Rest</strong><small>Recover energy</small></button>
+      <button class="action-card" data-action="social"><span class="big">🫶</span><strong>Socialize</strong><small>Relationships + joy</small></button>
+      <button class="action-card" data-action="freelance"><span class="big">💻</span><strong>Freelance</strong><small>Use your skills</small></button>
+    </div></div>
+    <div class="panel"><div class="panel-head"><h3>⚡ Latest life events</h3><button class="btn ghost" data-go="events">View all</button></div><div class="event-list" id="recentEvents"></div><div style="margin-top:12px"><button class="btn primary" id="advanceYear">⏭ Advance to next year</button></div></div>
+  </div>
+</section>
+<section class="screen" id="screen-city">
+  <div class="section-head"><div><div class="eyebrow">Open world · Explore districts</div><h1>Neon City Network</h1><p>Choose a city, visit districts, find shops and watch the streets come alive.</p></div><span class="badge">WORLD MAP</span></div>
+  <div class="city-tabs" id="cityTabs"></div>
+  <div class="city-map"><div class="map-skyline"></div><div class="map-building"></div><div class="map-building"></div><div class="map-building"></div><div class="map-building"></div><div class="map-building"></div><div class="map-building"></div><div class="map-road"></div>
+    <button class="district-pin" style="left:5%;top:28%" data-district="Cyber Market">🛍 Cyber Market</button>
+    <button class="district-pin" style="left:35%;top:18%" data-district="Skyline Plaza">🏙 Skyline Plaza</button>
+    <button class="district-pin" style="right:4%;top:38%" data-district="Neon Campus">🎓 Neon Campus</button>
+    <button class="district-pin" style="left:24%;bottom:9%" data-district="Night Street">🌙 Night Street</button>
+    <button class="district-pin" style="right:10%;bottom:12%" data-district="Harbor Walk">🌊 Harbor Walk</button>
+  </div>
+  <div class="city-info"><div class="pill">📍 District: <b id="districtName">Skyline Plaza</b></div><div class="pill">👥 Pedestrians today: <b id="crowdCount">128</b></div><div class="pill">🏪 Shops: <b id="cityShopCount">6</b></div><div class="pill">🌃 City rating: <b>★★★★★</b></div></div>
+  <div class="grid content-grid"><div class="panel"><div class="panel-head"><h3>🏙 Cities to discover</h3><span class="muted small">Travel costs apply</span></div><div class="listings" id="cityList"></div></div><div class="panel"><h3>🚶 Live street activity</h3><div class="event-list" id="streetActivity"></div><p class="muted small">Pedestrian numbers and visitor purchases are simulated locally; the scene is a stylized 2.5D game world.</p></div></div>
+</section>
+<section class="screen" id="screen-life">
+  <div class="section-head"><div><div class="eyebrow">Daily routine · Personal growth</div><h1>Your Life, Your Rules</h1><p>Spend energy, grow your stats and shape the person you become.</p></div></div>
+  <div class="grid stats-grid" id="lifeStats"></div>
+  <div class="grid actions-grid">
+    <button class="action-card" data-action="study"><span class="big">📚</span><strong>Study at home</strong><small>Education +8 · Intelligence +3</small></button>
+    <button class="action-card" data-action="work"><span class="big">💼</span><strong>Work shift</strong><small>Earn money · uses energy</small></button>
+    <button class="action-card" data-action="exercise"><span class="big">🏋️</span><strong>Workout</strong><small>Fitness +6 · Health +3</small></button>
+    <button class="action-card" data-action="rest"><span class="big">🛌</span><strong>Sleep & recover</strong><small>Energy +30 · Health +2</small></button>
+    <button class="action-card" data-action="social"><span class="big">🎮</span><strong>Meet friends</strong><small>Social +8 · happiness +6</small></button>
+    <button class="action-card" data-action="freelance"><span class="big">💻</span><strong>Freelance project</strong><small>Skill-based income</small></button>
+    <button class="action-card" data-action="shop"><span class="big">🛍️</span><strong>Go shopping</strong><small>Visit local stores</small></button>
+    <button class="action-card" data-action="night"><span class="big">🌙</span><strong>Night city walk</strong><small>Discover a random event</small></button>
+    <button class="action-card" data-action="medical"><span class="big">🩺</span><strong>Health check</strong><small>Spend money, improve health</small></button>
+  </div>
+  <div class="panel" style="margin-top:14px"><h3>🗓️ Life stage & milestones</h3><div class="grid three-col" id="milestones"></div></div>
+</section>
+<section class="screen" id="screen-career">
+  <div class="section-head"><div><div class="eyebrow">Education · Work · Ambition</div><h1>Career & Education</h1><p>Study to unlock new jobs, increase your salary and build your future.</p></div></div>
+  <div class="grid two-col"><div class="panel"><h3>🎓 Education track</h3><p class="muted small">Current education: <b id="eduLabel">Beginner</b></p><div class="bar"><span id="eduBar" style="width:10%"></span></div><div class="listings" id="educationList" style="margin-top:13px"></div></div><div class="panel"><h3>💼 Career profile</h3><div class="profile-card"><div class="portrait" id="careerPortrait">👩🏻‍🎤</div><div><div class="eyebrow">CURRENT ROLE</div><h2 id="careerJob" style="margin:5px 0">Unemployed</h2><p class="muted small" id="careerPay">No salary yet</p><span class="badge" id="careerRank">Rookie</span></div></div><div class="meter-row"><span>Skill</span><div class="bar"><span id="skillBar"></span></div><b id="skillValue">5</b></div><div class="meter-row"><span>Intelligence</span><div class="bar"><span id="intelBar"></span></div><b id="intelValue">50</b></div><button class="btn primary" data-go="life">Build your skills ↗</button></div></div>
+  <div class="panel" style="margin-top:14px"><div class="panel-head"><h3>💼 Open positions</h3><span class="badge">CAREER BOARD</span></div><div class="listings" id="careerList"></div></div>
+</section>
+<section class="screen" id="screen-shop">
+  <div class="section-head"><div><div class="eyebrow">Retail · Lifestyle · Business</div><h1>Shops & City Economy</h1><p>Buy useful items, open a business and earn passive income from customers.</p></div><span class="badge">AUTO BUSINESS INCOME</span></div>
+  <div class="grid stats-grid"><div class="stat-card"><div class="stat-top">🏪 Your businesses</div><div class="stat-value" id="businessCount">0</div><small class="muted">Owned stores</small></div><div class="stat-card"><div class="stat-top">🛒 Customers</div><div class="stat-value" id="customerCount">0</div><small class="muted">Lifetime visitors</small></div><div class="stat-card"><div class="stat-top">💸 Business income</div><div class="stat-value" id="businessIncome">$0</div><small class="muted">Per year</small></div><div class="stat-card"><div class="stat-top">📈 City demand</div><div class="stat-value">82%</div><small class="muted">Simulated demand</small></div></div>
+  <div class="tabs"><button class="tab active" data-shop-tab="items">🛍 Personal shopping</button><button class="tab" data-shop-tab="business">🏪 Open a shop</button><button class="tab" data-shop-tab="owned">📊 My businesses</button></div>
+  <div class="grid shop-grid" id="shopItems"></div>
